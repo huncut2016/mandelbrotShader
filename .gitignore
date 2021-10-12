@@ -4,6 +4,7 @@
 ###########################
 
 */bin/*
+/bin/mandelbrotShader
 !*/bin/data/
 
 #########
@@ -13,6 +14,9 @@
 */[Bb]uild/
 */[Oo]bj/
 *.o
+*.so
+*.d
+.compiler_flags
 */[Dd]ebug*/
 */[Rr]elease*/
 *.mode*

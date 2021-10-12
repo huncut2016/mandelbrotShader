@@ -5,6 +5,7 @@
 class ofApp : public ofBaseApp{
 
 	public:
+		float x, y = 0;
 		void setup();
 		void update();
 		void draw();
