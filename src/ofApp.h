@@ -5,7 +5,9 @@
 class ofApp : public ofBaseApp{
 
 	public:
-		float x, y = 0;
+		double x, y = 0;
+		ofImage img;
+		double scale = 1;
 		void setup();
 		void update();
 		void draw();

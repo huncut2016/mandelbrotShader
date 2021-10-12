@@ -13,37 +13,45 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
+    img.grabScreen(0, 0, ofGetWidth(), ofGetHeight());
+
     for (int i = 0; i < ofGetHeight(); i++){
         for (int j = 0; j < ofGetWidth(); j++){
-            double a = ofMap(i, 0, ofGetHeight(), -1, 1);
-            double b = ofMap(j, 0, ofGetWidth(), -2 , 1);
+            double a = ofMap(i, 0, ofGetHeight(), -1*scale+x, 1*scale + x);
+            double b = ofMap(j, 0, ofGetWidth(), -2*scale+y , 1*scale + y);
+
+            double ca = a, cb = b;
             
             int iter;
             bool good = true;
 
             for (iter = 0; iter < 200; iter++){
                 double newA = 2*a*b;
-                double newB = a*a + b*b;
+                double newB = a*a - b*b;
 
-                a = newA;
-                b = newB;
+                a = newA + ca;
+                b = newB + cb;
 
-                if (a > 1 || a < -1) {
+                if (a > 100 || a < -100) {
                     good = false;
                     break;
                 }
-                if (b > 1 || b < -2) {
+                if (b > 100 || b < -200) {
                     good = false;
                     break;
                 }
             }
 
-            ofColor col = ofColor::fromHsb(ofMap(iter, 0, 200, 0, 255), 255, 255);
+            ofColor col = ofColor::fromHsb(ofMap(iter, 0, 200, 0, 255), 100, 255);
             ofSetColor(col);
-            ofDrawCircle(i, j, 1);
-
+            int index = j * ofGetWidth() + i;
+            img.setColor( j, i , col);
         }
     }
+
+    img.update();
+
+    img.draw(0,0);
 }
 
 //--------------------------------------------------------------
@@ -54,13 +62,24 @@ void ofApp::keyPressed(int key)
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key)
 {
+    if (key == '-') {
+        scale += 0.1;
+    } else if (key == '+') {
+        scale -= 0.1;
+    } else if (key == 'w') {
+        y -= 0.1;
+    } else if (key == 's') {
+        y += 0.1;
+    } else if (key == 'a') {
+        x -= 0.1;
+    } else if (key == 'd') {
+        x += 0.1;
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int _x, int _y)
 {
-    x = (float)_x;
-    y = (float)_y;
 }
 
 //--------------------------------------------------------------
