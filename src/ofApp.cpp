@@ -25,9 +25,9 @@ void ofApp::draw()
             int iter;
             bool good = true;
 
-            for (iter = 0; iter < 200; iter++){
+            for (iter = 0; iter < 200 /** (1 / scale)*/; iter++){
                 double newA = 2*a*b;
-                double newB = a*a - b*b;
+                double newB = b*b - a*a;
 
                 a = newA + ca;
                 b = newB + cb;
@@ -63,17 +63,17 @@ void ofApp::keyPressed(int key)
 void ofApp::keyReleased(int key)
 {
     if (key == '-') {
-        scale += 0.1;
+        scale += 0.007;
     } else if (key == '+') {
-        scale -= 0.1;
-    } else if (key == 'w') {
-        y -= 0.1;
-    } else if (key == 's') {
-        y += 0.1;
+        scale -= 0.007;
     } else if (key == 'a') {
-        x -= 0.1;
+        y -= 0.1 * scale;
     } else if (key == 'd') {
-        x += 0.1;
+        y += 0.1 * scale ;
+    } else if (key == 'w') {
+        x -= 0.1 *scale;
+    } else if (key == 's') {
+        x += 0.1 *scale;
     }
 }
 
