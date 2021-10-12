@@ -7,6 +7,7 @@ class ofApp : public ofBaseApp{
 	public:
 		double x, y = 0;
 		ofImage img;
+		int max_iter = 300;
 		double scale = 1;
 		void setup();
 		void update();

@@ -11,7 +11,7 @@
 #########
 # general
 #########
-
+config.make
 */[Bb]uild/
 */[Oo]bj/
 *.o

@@ -25,26 +25,25 @@ void ofApp::draw()
             int iter;
             bool good = true;
 
-            for (iter = 0; iter < 200 /** (1 / scale)*/; iter++){
+            for (iter = 0; iter < max_iter; iter++){
                 double newA = 2*a*b;
                 double newB = b*b - a*a;
 
                 a = newA + ca;
                 b = newB + cb;
 
-                if (a > 100 || a < -100) {
+                if (a > 1 || a < -1) {
                     good = false;
                     break;
                 }
-                if (b > 100 || b < -200) {
+                if (b > 1 || b < -2) {
                     good = false;
                     break;
                 }
             }
 
-            ofColor col = ofColor::fromHsb(ofMap(iter, 0, 200, 0, 255), 100, 255);
-            ofSetColor(col);
-            int index = j * ofGetWidth() + i;
+            // ofColor col = ofColor::fromHsb(ofMap(iter, 0, 200, 0, 255), 100, 255);
+            ofColor col(255 - ofMap(iter, 0, max_iter, 0, 255)); // black, white coloring
             img.setColor( j, i , col);
         }
     }
@@ -63,9 +62,9 @@ void ofApp::keyPressed(int key)
 void ofApp::keyReleased(int key)
 {
     if (key == '-') {
-        scale += 0.007;
+        scale *= 1.07;
     } else if (key == '+') {
-        scale -= 0.007;
+        scale /= 1.07;
     } else if (key == 'a') {
         y -= 0.1 * scale;
     } else if (key == 'd') {
@@ -74,6 +73,8 @@ void ofApp::keyReleased(int key)
         x -= 0.1 *scale;
     } else if (key == 's') {
         x += 0.1 *scale;
+    } else if (key == 'm') {
+        max_iter += 10; // increase max iteration
     }
 }
 
