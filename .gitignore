@@ -2,8 +2,6 @@
 # ignore generated binaries
 # but not the data folder
 ###########################
-
-*/bin/*
 /bin/mandelbrotShader
 /bin/techtabor-mandelbrotShader
 !*/bin/data/
