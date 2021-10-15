@@ -27,44 +27,6 @@ void ofApp::draw()
         ofDrawRectangle(0, 0, winSize[WIDTH], winSize[HEIGHT]);
 
     shader.end();
-    /*img.grabScreen(0, 0, ofGetWidth(), ofGetHeight());
-
-    for (int i = 0; i < ofGetHeight(); i++){
-        for (int j = 0; j < ofGetWidth(); j++){
-            double a = ofMap(i, 0, ofGetHeight(), -1*scale+x, 1*scale + x);
-            double b = ofMap(j, 0, ofGetWidth(), -2*scale+y , 1*scale + y);
-
-            double ca = a, cb = b;
-            
-            int iter;
-            bool good = true;
-
-            for (iter = 0; iter < max_iter; iter++){
-                double newA = 2*a*b;
-                double newB = b*b - a*a;
-
-                a = newA + ca;
-                b = newB + cb;
-
-                if (a > 1 || a < -1) {
-                    good = false;
-                    break;
-                }
-                if (b > 1 || b < -2) {
-                    good = false;
-                    break;
-                }
-            }
-
-            // ofColor col = ofColor::fromHsb(ofMap(iter, 0, 200, 0, 255), 100, 255);
-            ofColor col(255 - ofMap(iter, 0, max_iter, 0, 255)); // black, white coloring
-            img.setColor( j, i , col);
-        }
-    }
-
-    img.update();
-
-    img.draw(0,0);*/
 }
 
 //--------------------------------------------------------------
@@ -116,13 +78,21 @@ void ofApp::mouseMoved(int _x, int _y)
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button)
-{
+void ofApp::mouseDragged(int xx, int yy, int button)
+{   
+    x += (yy-prevY) / 300 * scale;
+    y -= (xx-prevX) / 300 * scale;
+    
+
+    prevX = xx;
+    prevY = yy;
 }
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button)
+void ofApp::mousePressed(int xx, int yy, int button)
 {
+    prevX = xx;
+    prevY = yy;
 }
 
 //--------------------------------------------------------------
@@ -153,4 +123,12 @@ void ofApp::gotMessage(ofMessage msg)
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo)
 {
+}
+
+void ofApp::mouseScrolled(int xx, int yy, float scrollX, float scrollY) {
+    if (scrollY == -1) {
+        scale *= 1.07;
+    } else {
+        scale /= 1.07;
+    }
 }

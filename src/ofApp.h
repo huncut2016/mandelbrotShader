@@ -6,6 +6,8 @@ class ofApp : public ofBaseApp{
 
 	public:
 		double x, y = 0;
+		float prevX = -1, prevY = -1;
+		
 		ofImage img;
 		int max_iter = 300;
 		double scale = 1;
@@ -24,5 +26,6 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+		void mouseScrolled(int x, int y, float scrollX, float scrollY);
 		ofShader shader;
 };
