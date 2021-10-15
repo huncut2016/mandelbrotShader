@@ -3,6 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+    shader.load("shader");
 }
 
 //--------------------------------------------------------------
@@ -13,7 +14,20 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-    img.grabScreen(0, 0, ofGetWidth(), ofGetHeight());
+    shader.begin();
+        #define WIDTH 0
+        #define HEIGHT 1
+
+        float winSize[2] = {ofGetWidth(), ofGetHeight()};
+        float Positions[4] = {scale, x, y, max_iter};
+
+        shader.setUniform2f("WindowSize", winSize[WIDTH], winSize[HEIGHT]);
+        shader.setUniform4f("Positions", scale, x, y, max_iter);
+
+        ofDrawRectangle(0, 0, winSize[WIDTH], winSize[HEIGHT]);
+
+    shader.end();
+    /*img.grabScreen(0, 0, ofGetWidth(), ofGetHeight());
 
     for (int i = 0; i < ofGetHeight(); i++){
         for (int j = 0; j < ofGetWidth(); j++){
@@ -50,7 +64,7 @@ void ofApp::draw()
 
     img.update();
 
-    img.draw(0,0);
+    img.draw(0,0);*/
 }
 
 //--------------------------------------------------------------
@@ -61,20 +75,38 @@ void ofApp::keyPressed(int key)
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key)
 {
-    if (key == '-') {
+    switch (key)
+    {
+    case '-':
         scale *= 1.07;
-    } else if (key == '+') {
+        break;
+    
+    case '+':
         scale /= 1.07;
-    } else if (key == 'a') {
-        y -= 0.1 * scale;
-    } else if (key == 'd') {
+        break;
+    
+    case 'a':
+         y -= 0.1 * scale;
+        break;
+    
+    case 'd':
         y += 0.1 * scale ;
-    } else if (key == 'w') {
-        x -= 0.1 *scale;
-    } else if (key == 's') {
+        break;
+
+    case 'w':
         x += 0.1 *scale;
-    } else if (key == 'm') {
-        max_iter += 10; // increase max iteration
+        break;
+
+    case 's':
+        x -= 0.1 *scale;
+        break;
+
+    case 'm':
+        max_iter += 100; // increase max iteration
+        break;
+    
+    default:
+        break;
     }
 }
 
