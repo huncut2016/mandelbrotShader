@@ -9,6 +9,7 @@
 #########
 # general
 #########
+/.vscode
 config.make
 */[Bb]uild/
 */[Oo]bj/
