@@ -9,6 +9,9 @@
 #########
 # general
 #########
+*.qbs
+*.code-workspace
+Makefile
 /.vscode
 config.make
 */[Bb]uild/
