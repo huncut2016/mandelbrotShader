@@ -1,7 +1,10 @@
 #version 150
 out vec4 outputColor;
+
 uniform vec2 WindowSize;
-uniform vec4 Positions;
+uniform vec2 Positions;
+uniform float Scale;
+uniform float Max_iter;
 
 float map (float n, float start1,float  stop1, float start2,float  stop2) {
     return ((n-start1)/(stop1-start1))*(stop2-start2)+start2;
@@ -12,47 +15,54 @@ vec4 getColor(int ite, int iterations);
 void main(){
     int WIDTH = 0;
     int HEIGHT = 1;
-    int SCALE = 0;
 
-    int X = 1;
-    int Y = 2;
-    int MAX_ITERATIONS = 3;
+    float scale = Scale;
 
-	// vec2 myCoord = gl_FragCoord.xy / 1000; // [] []
-    float scale = Positions[SCALE];
-    float x = Positions[X];
-    float y = Positions[Y];
-    int max_iter = int(Positions[MAX_ITERATIONS]);
+    float x = Positions.x;
+    float y = Positions.y;
 
-	float a = map(gl_FragCoord.y, 0, WindowSize[HEIGHT], -1*scale+x, 1*scale + x);
-    float b = map(gl_FragCoord.x, 0, WindowSize[WIDTH], -2*scale+y , 1*scale + y);
+    int max_iter = int(Max_iter);
+
+	// z = a + bi
+
+    float a = map(gl_FragCoord.x, 0.0, WindowSize[WIDTH], -2*scale+x , 1*scale + x);
+	float b = map(gl_FragCoord.y, 0.0, WindowSize[HEIGHT], -1*scale+y, 1*scale + y);
+
+	// constant a, constant b
 
     float ca = a, cb = b;
             
     int iter;
 
     for (iter = 0; iter < max_iter; iter++){
-        float newA = 2*a*b;
-        float newB = b*b - a*a;
+		// z_0 = 0
+		// z_{n+1} = z_n ^ 2 + c
+
+
+		// (a + bi)^2 = (b^2 - a^2) + 2abi
+        float newA = a*a - b*b;
+	    float newB = 2*a*b; 
 
         a = newA + ca;
         b = newB + cb;
 
-        if (a > 1 || a < -1) break;
-        if (b > 1 || b < -2) break;
+        if (b > 1 || b < -1) break;
+        if (a > 1 || a < -2) break;
     }
+
+	// coloring
     float bright = map(float(iter), 0.0, float(max_iter), 0.0, 1.0);
     bright = map(sqrt(bright), 0, 1.0, 0.1, 1.0);
 
     outputColor = getColor(iter, max_iter);
 }
 
-vec4 getColor(int ite, int iterations) {
+vec4 getColor(int iterations, int max_iter) {
         vec4 CalcColor = vec4(0.0, 0.0, 0.0, 1.0);
 
-    if (ite != iterations)
+    if (iterations != max_iter)
 	{
-		int colorNr = ite % 16;
+		int colorNr = iterations % 16;
 
 		switch (colorNr)
 		{

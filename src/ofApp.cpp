@@ -15,16 +15,14 @@ void ofApp::update()
 void ofApp::draw()
 {
     shader.begin();
-        #define WIDTH 0
-        #define HEIGHT 1
 
-        float winSize[2] = {ofGetWidth(), ofGetHeight()};
-        float Positions[4] = {scale, x, y, max_iter};
+        shader.setUniform2f("WindowSize", ofGetWidth(), ofGetHeight());
+        shader.setUniform2f("Positions", x, y);
+        
+        shader.setUniform1f("Scale", scale);
+        shader.setUniform1f("Max_iter", max_iter);
 
-        shader.setUniform2f("WindowSize", winSize[WIDTH], winSize[HEIGHT]);
-        shader.setUniform4f("Positions", scale, x, y, max_iter);
-
-        ofDrawRectangle(0, 0, winSize[WIDTH], winSize[HEIGHT]);
+        ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
 
     shader.end();
 }
@@ -40,31 +38,11 @@ void ofApp::keyReleased(int key)
     switch (key)
     {
     case '-':
-        scale *= 1.07;
+        max_iter -= 10;
         break;
     
     case '+':
-        scale /= 1.07;
-        break;
-    
-    case 'a':
-         y -= 0.1 * scale;
-        break;
-    
-    case 'd':
-        y += 0.1 * scale ;
-        break;
-
-    case 'w':
-        x += 0.1 *scale;
-        break;
-
-    case 's':
-        x -= 0.1 *scale;
-        break;
-
-    case 'm':
-        max_iter += 100; // increase max iteration
+        max_iter += 100;
         break;
     
     default:
@@ -80,8 +58,8 @@ void ofApp::mouseMoved(int _x, int _y)
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int xx, int yy, int button)
 {   
-    x += (yy-prevY) / 300 * scale;
-    y -= (xx-prevX) / 300 * scale;
+    x -= (xx-prevX) / 300 * scale;
+    y += (yy-prevY) / 300 * scale;
     
 
     prevX = xx;
