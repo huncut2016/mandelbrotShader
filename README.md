@@ -2,9 +2,11 @@
 Mandelbrot set in [OpenFrameworks](https://openframeworks.cc/), with GLSL shaders.
 
 ## Formula
-<img src="https://render.githubusercontent.com/render/math?math=z_0%20%3D%200">
-<img src="https://render.githubusercontent.com/render/math?math=z_%7Bn%2B1%7D%20%3D%20%7Bz_n%7D%5E2%20%2B%20c">
-<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/ae79a6c0275901e60da910b8f6d5155ab438d749">
+$z_0 = 0$
+
+$z_{n+1} = z_{n}^2+c$
+
+$M= \\{ c \in \mathbb {C} \ \mid \ x_{n}\not \rightarrow \infty \\} $
 
 
 read more: [Mandelbrot-set](https://en.wikipedia.org/wiki/Mandelbrot_set)
